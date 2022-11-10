@@ -1,0 +1,41 @@
+{
+  "name": "mst-auth-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .  --ext .js",
+    "lint-fix": "eslint --fix .  --ext .js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zachdick93/MST-Auth-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zachdick93/MST-Auth-Server/issues"
+  },
+  "homepage": "https://github.com/zachdick93/MST-Auth-Server#readme",
+  "dependencies": {
+    "ajv": "^8.11.0",
+    "cassandra-driver": "^4.6.4",
+    "express": "^4.18.2",
+    "express-ws": "^5.0.2",
+    "fs": "^0.0.1-security",
+    "generate-api-key": "^1.0.2",
+    "generate-password": "^1.7.0",
+    "ioredis": "^5.2.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.4.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "superagent": "^8.0.3",
+    "ws": "^8.10.0"
+  }
+}
