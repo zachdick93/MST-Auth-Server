@@ -1,10 +1,10 @@
-const generator = require('generate-password')
+// const generator = require('generate-password')
 
 function generateKeystorePassword () {
-  return generator.generate({
-    length: 25,
-    numbers: true
-  })
+  return '1as6iYxMSdgeirMcJBgvBD1gqx86Mw5YVwso87EcgxE=' // generator.generate({
+  // length: 25,
+  // numbers: true
+  // })
 }
 
 module.exports = {
