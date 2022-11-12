@@ -2,7 +2,7 @@ const superagent = require('superagent') // https://github.com/visionmedia/super
 const WebSocket = require('ws')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 
-const hostAddress = 'localhost:4000'
+const hostAddress = 'localhost:4000' // ec2-44-206-228-215.compute-1.amazonaws.com
 const microservices = [
   {
     microserviceName: 'MSTAGateway',

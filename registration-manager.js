@@ -1,6 +1,33 @@
 const { v4: uuidv4 } = require('uuid')
 const redisClient = require('./utils/redis-client')
-const apiKeyGen = require('./utils/generate-apikey')
+// const apiKeyGen = require('./utils/generate-apikey')
+
+const testData = {
+  MSTAGateway: {
+    buildKey: 'build.901sW_KMlIAJO1yRQr/x',
+    deploymentKey: 'deploy.D2Byd6fVT4QbLP8D-~ha',
+    microserviceId: '1a0f2305-e311-4fb3-aa1b-bb91a192c28d',
+    microserviceName: 'MSTAGateway'
+  },
+  MSTABusiness: {
+    buildKey: 'build.2.6s.m9Xy~MN57dKr+lS',
+    deploymentKey: 'deploy.o1b_dO+OlEY+np3Q7ay~',
+    microserviceId: 'f34e5ca4-9366-4da0-93cc-ff2e7bede13e',
+    microserviceName: 'MSTABusiness'
+  },
+  MSTAAuthorization: {
+    buildKey: 'build.oS/LGMPjScfITx./dhqE',
+    deploymentKey: 'deploy.8KQpwXei4alC3RYw4cGu',
+    microserviceId: 'd3035fd0-d764-4383-8e81-aeb6c9ffc20f',
+    microserviceName: 'MSTAAuthorization'
+  },
+  MSTADataProvider: {
+    buildKey: 'build.IVLY5HRwVomubrwVxY75',
+    deploymentKey: 'deploy.a22_zMsAlX6H1d7KVaQQ',
+    microserviceId: 'e6088953-dcc0-47bd-9e28-a3450902325d',
+    microserviceName: 'MSTADataProvider'
+  }
+}
 
 function newWsConnected (ws) {
   console.log('newWsConnected')
@@ -46,6 +73,7 @@ async function getInitDataForWS (ws, serviceData) {
     microserviceId: ws.microserviceId,
     instanceId: ws.instanceId,
     microserviceName: serviceData.microserviceName,
+    keystorePassword: serviceData.keystorePassword,
     authorizationList: serviceData.authorizationList
   }
 
@@ -81,9 +109,9 @@ async function storePublicKey (apiKey, publicKey) {
 
 async function storeMicroserviceData (data) {
   console.log('storeMicroserviceData')
-  const microserviceId = generateUniqueId()
-  const buildKey = apiKeyGen.generateBuildApiKey()
-  const deploymentKey = apiKeyGen.generateDeployApiKey()
+  const microserviceId = testData[data.microserviceName].microserviceId // generateUniqueId()
+  const buildKey = testData[data.microserviceName].buildKey // apiKeyGen.generateBuildApiKey()
+  const deploymentKey = testData[data.microserviceName].deploymentKey // apiKeyGen.generateDeployApiKey()
   await redisClient.setKeyServicePair(buildKey, microserviceId)
   await redisClient.setKeyServicePair(deploymentKey, microserviceId)
   await redisClient.setNameAndIdPair(data.microserviceName, microserviceId)
@@ -94,7 +122,8 @@ async function storeMicroserviceData (data) {
   return {
     buildKey,
     deploymentKey,
-    microserviceId
+    microserviceId,
+    microserviceName: data.microserviceName
   }
 }
 
