@@ -115,7 +115,11 @@ app.ws('/wss', function (ws, req) {
       } else if (ws.validated === true) {
         if (schemaValidator.validateEventData(msg)) {
           console.log('validated event data')
-          eventHandler.processEventData(ws, msg)
+          await eventHandler.processEventData(ws, msg)
+          ws.send(JSON.stringify({ response: 'ACK', reason: 'success' }))
+        } else {
+          console.log('invalid event data: %s', msg)
+          ws.send(JSON.stringify({ response: 'NACK', reason: 'invalid data' }))
         }
       } else {
         throw new Error('invalid message!')

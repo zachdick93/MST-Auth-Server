@@ -2,12 +2,12 @@ const superagent = require('superagent') // https://github.com/visionmedia/super
 const WebSocket = require('ws')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 
-const hostAddress = 'localhost:4000'
+const hostAddress = 'localhost:4000' // 'ec2-54-205-101-105.compute-1.amazonaws.com'
 const microservices = [
   {
     microserviceName: 'MSTAGateway',
     maxReplicas: 1,
-    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com//MSTA-Gateway/MSTAGateway.html',
+    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com/MSTA-Gateway/MSTAGateway.html',
     authorizationList: [
       {
         microserviceName: 'MSTABusiness',
@@ -127,12 +127,14 @@ function connectService (microservice, ms) {
                     })
 
                     ws.on('message', function message (data) {
-                      // Add function to process messages
-                      console.log('received: %s', JSON.parse(data))
-                      ws.send(JSON.stringify(eventMsg))
-                      setTimeout(() => {
-                        ws.close()
-                      }, ms)
+                      if (JSON.parse(data).response !== 'ACK') {
+                        // Add function to process messages
+                        console.log('received: %s', data)
+                        ws.send(JSON.stringify(eventMsg))
+                        setTimeout(() => {
+                          ws.close()
+                        }, ms)
+                      }
                     })
 
                     ws.on('error', function error (err) {
