@@ -136,6 +136,7 @@ async function getMicroservicesAuthData (data) {
       const serviceData = await redisClient.getMicroserviceData(item.microserviceId)
       item.publicKey = serviceData.publicKey
       item.instanceList = serviceData.instanceList
+      item.uri = serviceData.uri
     }
     return item
   }))
