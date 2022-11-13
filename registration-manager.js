@@ -73,6 +73,7 @@ async function getInitDataForWS (ws, serviceData) {
     microserviceId: ws.microserviceId,
     instanceId: ws.instanceId,
     microserviceName: serviceData.microserviceName,
+    uri: serviceData.uri,
     keystorePassword: serviceData.keystorePassword,
     authorizationList: serviceData.authorizationList
   }

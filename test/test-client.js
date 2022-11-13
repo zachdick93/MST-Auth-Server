@@ -2,14 +2,16 @@ const superagent = require('superagent') // https://github.com/visionmedia/super
 const WebSocket = require('ws')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 
-const hostAddress = 'localhost:4000' // ec2-44-206-228-215.compute-1.amazonaws.com
+const hostAddress = 'localhost:4000'
 const microservices = [
   {
     microserviceName: 'MSTAGateway',
     maxReplicas: 1,
+    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com//MSTA-Gateway/MSTAGateway.html',
     authorizationList: [
       {
         microserviceName: 'MSTABusiness',
+        encryption: 'NONE',
         authorizations: { FORWARD: ['GET', 'PUT', 'POST'] }
       }
     ]
@@ -17,17 +19,21 @@ const microservices = [
   {
     microserviceName: 'MSTABusiness',
     maxReplicas: 1,
+    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com/MSTA-BusinessService/MSTABusiness.html',
     authorizationList: [
       {
         microserviceName: 'MSTAAuthorization',
-        authorizations: { FORWARD: ['GET'] }
+        encryption: 'NONE',
+        authorizations: { FORWARD: ['GET', 'PUT', 'POST'] }
       },
       {
         microserviceName: 'MSTADataProvider',
-        authorizations: { SEND: ['GET', 'PUT', 'POST'] }
+        encryption: 'NONE',
+        authorizations: { FORWARD: ['GET', 'PUT', 'POST'] }
       },
       {
         microserviceName: 'MSTAGateway',
+        encryption: 'NONE',
         authorizations: { RECEIVE: ['GET', 'PUT', 'POST'] }
       }
     ]
@@ -35,21 +41,23 @@ const microservices = [
   {
     microserviceName: 'MSTAAuthorization',
     maxReplicas: 1,
-    encryption: 'HEADER',
+    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com/MSTA-AuthorizationService/MSTAAuthorization.html',
     authorizationList: [
       {
         microserviceName: 'MSTABusiness',
-        authorizations: { RECEIEVE: ['GET'] }
+        encryption: 'NONE',
+        authorizations: { RECEIEVE: ['GET', 'PUT', 'POST'] }
       }
     ]
   },
   {
     microserviceName: 'MSTADataProvider',
     maxReplicas: 1,
-    encryption: 'HEADER',
+    uri: 'http://mstauth-env.eba-zgvgmydp.us-east-2.elasticbeanstalk.com/MSTA-DataProvider/MSTADataProvider.html',
     authorizationList: [
       {
         microserviceName: 'MSTABusiness',
+        encryption: 'NONE',
         authorizations: { RECEIVE: ['GET', 'PUT', 'POST'] }
       }
     ]
@@ -120,7 +128,7 @@ function connectService (microservice, ms) {
 
                     ws.on('message', function message (data) {
                       // Add function to process messages
-                      console.log('received: %s', data)
+                      console.log('received: %s', JSON.parse(data))
                       ws.send(JSON.stringify(eventMsg))
                       setTimeout(() => {
                         ws.close()

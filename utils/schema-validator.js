@@ -27,6 +27,7 @@ const microserviceSchema = {
     microserviceName: { type: 'string' },
     maxReplicas: { type: 'integer' },
     encryption: { type: 'string' },
+    uri: { type: 'string' },
     authorizationList: {
       type: 'array',
       items: {
@@ -66,6 +67,7 @@ const eventSchema = {
         receiving_instanceid: { type: 'string' },
         receiving_serviceid: { type: 'string' },
         receiving_servicename: { type: 'string' },
+        body_hash: { type: 'string' },
         reason_code: { type: 'integer' }
       }
     }
