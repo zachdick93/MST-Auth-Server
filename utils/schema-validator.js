@@ -35,11 +35,14 @@ const microserviceSchema = {
         properties: {
           microserviceName: { type: 'string' },
           authorizations: {
-            type: 'object',
-            properties: {
-              SEND: { type: 'array', items: { type: 'string' } },
-              RECEIVE: { type: 'array', items: { type: 'string' } },
-              FORWARD: { type: 'array', items: { type: 'string' } }
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                SEND: { type: 'array', items: { type: 'string' } },
+                RECEIVE: { type: 'array', items: { type: 'string' } },
+                FORWARD: { type: 'array', items: { type: 'string' } }
+              }
             }
           }
         }
