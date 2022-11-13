@@ -54,7 +54,7 @@ const microserviceSchema = {
 
 const validateMicroservice = ajv.compile(microserviceSchema)
 
-const eventSchema = {
+const eventSchemaObj = {
   type: 'object',
   properties: {
     event: {
@@ -78,11 +78,23 @@ const eventSchema = {
   additionalProperties: false
 }
 
-const validateEventData = ajv.compile(eventSchema)
+const eventSchemaStr = {
+  type: 'object',
+  properties: {
+    event: {
+      type: 'string'
+    }
+  },
+  additionalProperties: false
+}
+
+const validateEventDataObj = ajv.compile(eventSchemaObj)
+const validateEventDataStr = ajv.compile(eventSchemaStr)
 
 module.exports = {
   validateAPIKey,
   validatePublicKey,
   validateMicroservice,
-  validateEventData
+  validateEventDataObj,
+  validateEventDataStr
 }

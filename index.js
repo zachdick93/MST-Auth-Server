@@ -113,7 +113,7 @@ app.ws('/wss', function (ws, req) {
           }
         })
       } else if (ws.validated === true) {
-        if (schemaValidator.validateEventData(msg)) {
+        if (schemaValidator.validateEventDataObj(msg) || schemaValidator.validateEventDataStr(msg)) {
           console.log('validated event data')
           await eventHandler.processEventData(ws, msg)
           ws.send(JSON.stringify({ response: 'ACK', reason: 'success' }))
