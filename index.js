@@ -2,21 +2,21 @@ const regManager = require('./registration-manager')
 const eventHandler = require('./anomaly-detector')
 const schemaValidator = require('./utils/schema-validator')
 const { generateKeystorePassword } = require('./utils/generate-password')
-const https = require('https') // https://adamtheautomator.com/https-nodejs/
-const fs = require('fs')
+// const https = require('https') // https://adamtheautomator.com/https-nodejs/
+// const fs = require('fs')
 const express = require('express') // https://www.npmjs.com/package/express
 const expressWs = require('express-ws') // https://www.npmjs.com/package/express-ws
 const app = express()
-const server = https
-  .createServer({
-    key: fs.readFileSync('./privacy/key.pem'),
-    cert: fs.readFileSync('./privacy/cert.pem')
-  },
-  app)
+// const server = https
+//   .createServer({
+//     key: fs.readFileSync('./privacy/key.pem'),
+//     cert: fs.readFileSync('./privacy/cert.pem')
+//   },
+//   app)
 
-const wss = expressWs(app, server)
+const wss = expressWs(app) // , server)
 
-server.listen(4000, () => {
+app.listen(4000, () => {
   console.log('server is runing at port 4000')
 })
 
